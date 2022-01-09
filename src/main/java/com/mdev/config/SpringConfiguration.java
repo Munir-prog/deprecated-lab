@@ -1,39 +1,47 @@
 package com.mdev.config;
 
-import com.mdev.classes.ThirdClass;
-import com.mdev.classes.TimeConsumingClass;
-import com.mdev.classes.FirstClass;
-import com.mdev.classes.TimeLogging;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
-import org.springframework.context.annotation.Scope;
+import com.mdev.aspects.LoggingAspect;
+import com.mdev.service.BusinessLogic;
+import com.mdev.aspects.TimingAspect;
+import com.mdev.service.ReversedSort;
+import com.mdev.service.SimpleSort;
+import com.mdev.service.TimerMethods;
+import org.springframework.context.annotation.*;
 
 @Configuration
+@ComponentScan("com.mdev")
+@EnableAspectJAutoProxy
 public class SpringConfiguration {
-    @Configuration
-    @EnableAspectJAutoProxy
-    public class SpringConfig {
-        @Bean
-        public FirstClass fc() {
-            return new FirstClass();
-        }
 
-        @Bean
-        public TimeConsumingClass tcc() {
-            return new TimeConsumingClass();
-        }
-
-        @Bean
-        @Scope(value = "singleton")
-        public TimeLogging tl() {
-            return new TimeLogging();
-        }
-
-        @Bean
-        public ThirdClass tc() {
-            return new ThirdClass(fc(), tcc());
-        }
-
+    @Bean
+    public BusinessLogic logic() {
+        return new BusinessLogic();
     }
+
+    @Bean
+    public TimerMethods timerMethods(){
+        return new TimerMethods(simpleSort(), reversedSort());
+    }
+
+    @Bean
+    public LoggingAspect logging() {
+        return new LoggingAspect();
+    }
+
+    @Bean
+    public SimpleSort simpleSort() {
+        return new SimpleSort();
+    }
+
+    @Bean
+    public ReversedSort reversedSort() {
+        return new ReversedSort();
+    }
+
+    @Bean
+    @Scope(value = "singleton")
+    public TimingAspect tl() {
+        return new TimingAspect();
+    }
+
 }
