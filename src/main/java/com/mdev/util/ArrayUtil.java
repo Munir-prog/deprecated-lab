@@ -8,7 +8,7 @@ public class ArrayUtil {
         Random ran = new Random();
         Double[] array = new Double[n];
         for (int i = 0; i < n; i++) {
-            array[i] = ran.nextDouble();
+            array[i] = ran.nextDouble(1, 100);
         }
         return array;
     }

@@ -10,6 +10,7 @@ public class ReversedSort {
     public void countTimeForReverseSort(int n) {
         var array = generateArray(n);
         Arrays.sort(array, Collections.reverseOrder());
+        System.out.println(Arrays.toString(array));
     }
 
 }
